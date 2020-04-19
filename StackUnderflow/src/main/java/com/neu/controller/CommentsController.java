@@ -47,12 +47,13 @@ public class CommentsController {
 		   }
 		   @RequestMapping(
 		            produces = MediaType.APPLICATION_JSON_VALUE, method= RequestMethod.DELETE,
-		      value="/comment")
-		   public ResponseEntity<?> removeComment(@RequestParam int commentId,@RequestHeader(value="Authorization",required = true) String requestTokenHeader) {
+		      value="/comment/{postId}/{commentId}")
+		   public ResponseEntity<?> removeComment(@PathVariable(value="postId")int postId,@PathVariable(value="commentId")int commentId,@RequestHeader(value="x-auth-token",required = true) String requestTokenHeader) {
 		         User user=userExtractor.getUserFromtoken(requestTokenHeader);
 				
 				commentService.removeComment(commentId);
-		      return new ResponseEntity<String>("Comment has been removed",HttpStatus.OK);
+				Post postres=postService.getPost(postId);
+		      return new ResponseEntity<Post>(postres,HttpStatus.OK);
 		   }
 }
 

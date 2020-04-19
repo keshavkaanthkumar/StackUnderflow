@@ -1,5 +1,7 @@
 package com.neu.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.neu.model.Error;
+import com.neu.model.ErrorResponse;
 import com.neu.model.Like;
 import com.neu.model.Post;
 import com.neu.model.Profile;
@@ -42,7 +46,18 @@ public class LikesController {
 		   public ResponseEntity<?> like(@PathVariable(value = "id") int postId,@RequestHeader(value="x-auth-token",required = true) String requestTokenHeader) {
 		         User user=userExtractor.getUserFromtoken(requestTokenHeader);
 				Post post=postService.getPost(postId);
-				likeService.addLike(user, post);
+				try {
+					likeService.addLike(user, post);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					Error error=new Error();
+				   	   //error.setValue(ex.getMessage());
+				   	   error.setMsg(e.getMessage());
+				   	   List<Error> errorlist=new ArrayList<>();
+				   	   errorlist.add(error);
+				          ErrorResponse errors = new ErrorResponse(errorlist);
+				   	  return new ResponseEntity<ErrorResponse>(errors , HttpStatus.BAD_REQUEST);
+				}
 				Post postres=postService.getPost(postId);
 		      return new ResponseEntity<Set<Like>>(postService.getPostLikes(postres),HttpStatus.OK);
 		   }

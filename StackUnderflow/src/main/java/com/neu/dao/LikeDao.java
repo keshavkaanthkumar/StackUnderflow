@@ -18,7 +18,7 @@ public interface LikeDao {
 
 	public List<Like> getLikesofPost(int postId);
 	
-	 public Like getLike(int likeId);
+	 public int getLike(Post post,User user );
 	
 	public void deleteLike(User user, Post post);
 

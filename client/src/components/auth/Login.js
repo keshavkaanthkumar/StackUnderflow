@@ -45,6 +45,7 @@ const Login = ({ login, isAuthenticated }) => {
           <input
             type="password"
             placeholder="Password"
+            required
             name="password"
             value={password}
             onChange={e => onChange(e)}

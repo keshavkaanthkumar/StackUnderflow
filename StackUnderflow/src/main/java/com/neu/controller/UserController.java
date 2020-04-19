@@ -12,18 +12,23 @@ package com.neu.controller;
 
 import com.neu.exceptions.InvalidUserDetailsException;
 import com.neu.model.ErrorResponse;
+import com.neu.model.JwtResponse;
 import com.neu.model.Error;
 import com.neu.model.User;
+import com.neu.service.UserDetailService;
 import com.neu.service.UserExtracter;
 import com.neu.service.UserService;
 import com.neu.service.UserServiceImpl;
+import com.neu.stackunderflow.JwtTokenUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,7 +54,11 @@ public class UserController {
     UserExtracter userExtractor;
    @Autowired
    private UserService userService;
-
+	@Autowired
+	private JwtTokenUtil jwtTokenUtil;
+	@Autowired(required=true)
+	@Qualifier("jwtservice")
+	private UserDetailService userDetailsService;
  
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, 
     		produces=MediaType.APPLICATION_JSON_VALUE,
@@ -68,7 +77,11 @@ public class UserController {
            ErrorResponse errors = new ErrorResponse(errorlist);
     	  return new ResponseEntity<ErrorResponse>(errors , HttpStatus.BAD_REQUEST);
       }
-      return new ResponseEntity<String>("New user has been saved",HttpStatus.OK);
+      final UserDetails userDetails = userDetailsService.loadUserByUsername(user.getName());
+
+		final String token = jwtTokenUtil.generateToken(userDetails);
+
+      return new ResponseEntity<JwtResponse>(new JwtResponse(token,user),HttpStatus.OK);
    }
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, 
             produces = MediaType.APPLICATION_JSON_VALUE, method= RequestMethod.PUT,
@@ -146,6 +159,7 @@ public class UserController {
 		           ErrorResponse errors = new ErrorResponse(errorlist);
 		    	  return new ResponseEntity<ErrorResponse>(errors , HttpStatus.BAD_REQUEST);
 		      }
+	   
       
       return new ResponseEntity<String>("User deleted",HttpStatus.OK);
    }

@@ -22,7 +22,10 @@ public class LikeServiceImpl implements LikeService{
 	@Autowired
 	LikeDao likedao;
 	@Override
-	public Like addLike(User user, Post post) {
+	public Like addLike(User user, Post post) throws Exception {
+		if(likedao.getLike(post, user)>0) {
+			throw new Exception("Post already liked");
+		}
 	    Like like=new Like();
 	    //LikeId likeid=new LikeId(post,user);
 	    like.setPost(post);

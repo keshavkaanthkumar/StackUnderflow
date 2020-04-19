@@ -9,7 +9,7 @@ import com.neu.model.Post;
 import com.neu.model.User;
 
 public interface LikeService {
-public Like addLike(User user, Post post);
+public Like addLike(User user, Post post) throws Exception;
 public void removeLike(User user, Post post);
 }
 

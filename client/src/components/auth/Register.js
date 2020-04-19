@@ -2,7 +2,7 @@ import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import { setAlert } from '../../actions/alert';
-import { register } from '../../actions/auth';
+import { register,login  } from '../../actions/auth';
 import PropTypes from 'prop-types';
 
 const Register = ({ setAlert, register, isAuthenticated }) => {
@@ -24,6 +24,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
       setAlert('Passwords do not match', 'danger');
     } else {
       register({ name, email, password });
+      
     }
   };
 
@@ -42,7 +43,10 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
           <input
             type='text'
             placeholder='Name'
+            required
             name='name'
+            minLength="3"
+            maxLength="20"
             value={name}
             onChange={e => onChange(e)}
           />
@@ -50,22 +54,25 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
         <div className='form-group'>
           <input
             type='email'
+            required
             placeholder='Email Address'
             name='email'
             value={email}
             onChange={e => onChange(e)}
           />
-          <small className='form-text'>
+          {/* <small className='form-text'>
             This site uses Gravatar so if you want a profile image, use a
             Gravatar email
-          </small>
+          </small> */}
         </div>
         <div className='form-group'>
           <input
+          required
             type='password'
             placeholder='Password'
             name='password'
             value={password}
+            minLength="6"
             onChange={e => onChange(e)}
           />
         </div>

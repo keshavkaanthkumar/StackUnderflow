@@ -89,7 +89,7 @@ public class AuthenticationController {
 		final String token = jwtTokenUtil.generateToken(userDetails);
 
 	
-		return new ResponseEntity<JwtResponse>(new JwtResponse(token),HttpStatus.OK);
+		return new ResponseEntity<JwtResponse>(new JwtResponse(token,user),HttpStatus.OK);
 	}
 
 //	@RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, 

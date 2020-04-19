@@ -9,15 +9,34 @@ const initialState = {
   website: '',
   location: '',
   status: '',
-  skills: '',
+  skills:'',
   githubusername: '',
   bio: '',
   twitter: '',
   facebook: '',
   linkedin: '',
   youtube: '',
-  instagram: ''
+  instagram: '',
+  profileId: ''
 };
+const profilereq= {
+  company: '',
+  website: '',
+  location: '',
+  status: '',
+  skills:[],
+  githubusername: '',
+  bio: '',
+  twitter: '',
+  facebook: '',
+  linkedin: '',
+  youtube: '',
+  instagram: '',
+  profileId: ''
+};
+const skill={
+  name: ''
+}
 
 const EditProfileForm = ({
   profile: { profile, loading },
@@ -39,6 +58,7 @@ const EditProfileForm = ({
       for (const key in profile.social) {
         if (key in profileData) profileData[key] = profile.social[key];
       }
+      
       setFormData(profileData);
     }
   }, [loading, getCurrentProfile, profile]);
@@ -55,13 +75,28 @@ const EditProfileForm = ({
     facebook,
     linkedin,
     youtube,
-    instagram
+    instagram,
+    profileId
   } = formData;
 
   const onChange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = e => {
+  //  profilereq.company=formData.company;
+  //  profilereq.profileId=formData.profileId;
+  //  profilereq.bio=formData.profileId.bio;
+  //  for(var k in formData){ if(k!="skills"){profilereq[k]=formData[k];}}
+  //   var skillsvar= formData.skills.split(',');
+  //   skillsvar.forEach((item, index)=>{
+  //     var skill = new Object();
+  //     skill.name=item;
+  //     profilereq.skills.push(skill);
+      
+  //   })
+  
+  //   profilereq.profileId=profile.profileId;
+  formData.profileId=profile.profileId;
     e.preventDefault();
     updateProfile(formData, history, true);
   };
@@ -126,18 +161,18 @@ const EditProfileForm = ({
             City & state suggested (eg. Boston, MA)
           </small>
         </div>
-        <div className="form-group">
+        {/* <div className="form-group">
           <input
             type="text"
-            placeholder="* Skills"
+            placeholder="Skills"
             name="skills"
-            value={skills}
+            value={skills.name}
             onChange={onChange}
           />
           <small className="form-text">
             Please use comma separated values (eg. HTML,CSS,JavaScript,PHP)
           </small>
-        </div>
+        </div> */}
         <div className="form-group">
           <input
             type="text"

@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import com.neu.model.Error;
+import com.neu.model.ErrorResponse;
 import com.neu.model.Post;
 import com.neu.model.Profile;
 import com.neu.model.User;
@@ -36,6 +37,8 @@ public class PostsController {
 	    UserExtracter userExtractor;
 		@Autowired
 	   PostService postService;
+		@Autowired
+		ProfileService profileService;
 		   @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, 
 		            produces = MediaType.APPLICATION_JSON_VALUE, method= RequestMethod.POST,
 		      value="/post/me")
@@ -69,6 +72,28 @@ public class PostsController {
 			   List<Post> posts=postService.listPosts();
 		
 		      return new ResponseEntity<List<Post>>(posts,HttpStatus.OK);
+		   }
+		   @RequestMapping(
+		            produces = MediaType.APPLICATION_JSON_VALUE, method= RequestMethod.DELETE,
+		      value="/post/{postId}")
+		   public ResponseEntity<?> removeComment(@PathVariable(value="postId")int postId,@RequestHeader(value="x-auth-token",required = true) String requestTokenHeader) {
+		        
+		         User user;
+				   try {
+				   user=userExtractor.getUserFromtoken(requestTokenHeader);
+				  }
+				  catch(Exception ex) {
+					  Error error=new Error();
+				   	   //error.setValue(ex.getMessage());
+				   	   error.setMsg("Invalid/Expired token");
+				   	   List<Error> errorlist=new ArrayList<>();
+				   	   errorlist.add(error);
+				          ErrorResponse errors = new ErrorResponse(errorlist);
+				   	  return new ResponseEntity<ErrorResponse>(errors , HttpStatus.BAD_REQUEST);
+				  }
+				postService.deletePost(postId);
+				Profile profile=profileService.getProfile(user);
+		      return new ResponseEntity<Profile>(profile,HttpStatus.OK);
 		   }
 		   
 }

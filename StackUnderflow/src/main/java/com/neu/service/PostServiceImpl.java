@@ -57,7 +57,7 @@ public class PostServiceImpl implements PostService{
 
 	@Override
 	public void deletePost(int postId) {
-		// TODO Auto-generated method stub
+		postdao.deletePost(postId);
 		
 	}
 

@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import com.neu.model.ProfileRequest;
+import com.neu.model.Education;
 import com.neu.model.Error;
 import com.neu.model.ErrorResponse;
+import com.neu.model.Experience;
 import com.neu.model.Message;
 import com.neu.model.Profile;
 import com.neu.model.User;
@@ -70,7 +72,7 @@ public class ProfileController {
 	   @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, 
 	            produces = MediaType.APPLICATION_JSON_VALUE, method= RequestMethod.PUT,
 	      value="/profile/me")
-	   public ResponseEntity<?> update(@RequestHeader(value="x-auth-token",required = true) String requestTokenHeader,@RequestBody Profile updateprofilerequest) {
+	   public ResponseEntity<?> update(@RequestHeader(value="x-auth-token",required = true) String requestTokenHeader,@RequestBody Profile profile) {
 		   User user;
 		   try {
 		   user=userExtractor.getUserFromtoken(requestTokenHeader);
@@ -86,7 +88,7 @@ public class ProfileController {
 		  } 
 		 // Profile profile=profileService.getProfile(user);
 		 //  Profile profile2=profileRequestConvertor.ConvertRequestToProfileUpdate(updateprofilerequest,profile);
-		   Profile profileres=profileService.updateProfile(updateprofilerequest, user);
+		   Profile profileres=profileService.updateProfile(profile, user);
 	      return new ResponseEntity<Profile>(profileres,HttpStatus.OK);
 	   }
 	   @RequestMapping(
@@ -164,7 +166,110 @@ public class ProfileController {
 				msg.setMsg("No profiles found");
 				return new ResponseEntity<Message>(msg,HttpStatus.BAD_REQUEST);
 			}
+//		   for(Profile profile:profiles) {
+//			   profile.setSkills(null);
+//		   }
 	      return new ResponseEntity<List<Profile>>(profiles,HttpStatus.OK);
+	   }
+	   @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, 
+	            produces = MediaType.APPLICATION_JSON_VALUE, method= RequestMethod.PUT,
+	      value="/profile/experience")
+	   public ResponseEntity<?> addexperience(@RequestHeader(value="x-auth-token",required = true) String requestTokenHeader,@RequestBody Experience experience) {
+	        
+	         User user;
+			   try {
+			   user=userExtractor.getUserFromtoken(requestTokenHeader);
+			  }
+			  catch(Exception ex) {
+				  Error error=new Error();
+			   	   //error.setValue(ex.getMessage());
+			   	   error.setMsg("Invalid/Expired token");
+			   	   List<Error> errorlist=new ArrayList<>();
+			   	   errorlist.add(error);
+			          ErrorResponse errors = new ErrorResponse(errorlist);
+			   	  return new ResponseEntity<ErrorResponse>(errors , HttpStatus.BAD_REQUEST);
+			  } 
+			   
+				Profile profile=profileService.getProfile(user);
+			profileService.addExperience(experience, profile);
+			Profile profileres=profileService.getProfile(user);
+			  // Profile profileres=null;
+	      return new ResponseEntity<Profile>(profileres,HttpStatus.OK);
+	   }
+	   @RequestMapping(
+	            produces = MediaType.APPLICATION_JSON_VALUE, method= RequestMethod.DELETE,
+	      value="/profile/experience/{id}")
+	   public ResponseEntity<?> deleteExperience(@PathVariable(value="id")int expid,@RequestHeader(value="x-auth-token",required = true) String requestTokenHeader) {
+	        
+	         User user;
+			   try {
+			   user=userExtractor.getUserFromtoken(requestTokenHeader);
+			  }
+			  catch(Exception ex) {
+				  Error error=new Error();
+			   	   //error.setValue(ex.getMessage());
+			   	   error.setMsg("Invalid/Expired token");
+			   	   List<Error> errorlist=new ArrayList<>();
+			   	   errorlist.add(error);
+			          ErrorResponse errors = new ErrorResponse(errorlist);
+			   	  return new ResponseEntity<ErrorResponse>(errors , HttpStatus.BAD_REQUEST);
+			  } 
+			   
+				Profile profile=profileService.getProfile(user);
+			profileService.deleteExperience(expid);
+			Profile profileres=profileService.getProfile(user);
+			  // Profile profileres=null;
+	      return new ResponseEntity<Profile>(profileres,HttpStatus.OK);
+	   }
+	   @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, 
+	            produces = MediaType.APPLICATION_JSON_VALUE, method= RequestMethod.PUT,
+	      value="/profile/education")
+	   public ResponseEntity<?> addeducation(@RequestHeader(value="x-auth-token",required = true) String requestTokenHeader,@RequestBody Education education) {
+	        
+	         User user;
+			   try {
+			   user=userExtractor.getUserFromtoken(requestTokenHeader);
+			  }
+			  catch(Exception ex) {
+				  Error error=new Error();
+			   	   //error.setValue(ex.getMessage());
+			   	   error.setMsg("Invalid/Expired token");
+			   	   List<Error> errorlist=new ArrayList<>();
+			   	   errorlist.add(error);
+			          ErrorResponse errors = new ErrorResponse(errorlist);
+			   	  return new ResponseEntity<ErrorResponse>(errors , HttpStatus.BAD_REQUEST);
+			  } 
+			   
+				Profile profile=profileService.getProfile(user);
+			profileService.addEducation(education, profile);
+			Profile profileres=profileService.getProfile(user);
+			  // Profile profileres=null;
+	      return new ResponseEntity<Profile>(profileres,HttpStatus.OK);
+	   }
+	   @RequestMapping(
+	            produces = MediaType.APPLICATION_JSON_VALUE, method= RequestMethod.DELETE,
+	      value="/profile/education/{id}")
+	   public ResponseEntity<?> deleteEducation(@PathVariable(value="id")int eduid,@RequestHeader(value="x-auth-token",required = true) String requestTokenHeader) {
+	        
+	         User user;
+			   try {
+			   user=userExtractor.getUserFromtoken(requestTokenHeader);
+			  }
+			  catch(Exception ex) {
+				  Error error=new Error();
+			   	   //error.setValue(ex.getMessage());
+			   	   error.setMsg("Invalid/Expired token");
+			   	   List<Error> errorlist=new ArrayList<>();
+			   	   errorlist.add(error);
+			          ErrorResponse errors = new ErrorResponse(errorlist);
+			   	  return new ResponseEntity<ErrorResponse>(errors , HttpStatus.BAD_REQUEST);
+			  } 
+			   
+				Profile profile=profileService.getProfile(user);
+			profileService.deleteEducation(eduid);
+			Profile profileres=profileService.getProfile(user);
+			  // Profile profileres=null;
+	      return new ResponseEntity<Profile>(profileres,HttpStatus.OK);
 	   }
 }
 

@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import com.neu.dao.ProfileDao;
 import com.neu.dao.UserDao;
+import com.neu.model.Education;
+import com.neu.model.Experience;
 import com.neu.model.Profile;
 import com.neu.model.Skill;
 import com.neu.model.Social;
@@ -33,6 +35,18 @@ public class ProfileServiceImpl implements ProfileService{
 	      return profileDao.addProfile(profile);
       
 		
+	}
+	@Override
+	public void addExperience(Experience experience, Profile profile) {
+		experience.setProfile(profile);
+		profileDao.addExperience(experience);
+		 
+	}
+	@Override
+	public void addEducation(Education education, Profile profile) {
+		education.setProfile(profile);
+		profileDao.addEducation(education);
+		 
 	}
 	@Override
 	public Profile updateProfile(Profile profile,User user) {
@@ -61,6 +75,16 @@ public class ProfileServiceImpl implements ProfileService{
 	@Override
 	public void getProfileFromEmail(String email) {
 		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void deleteExperience(int expid) {
+		profileDao.deleteExperience(expid);
+		
+	}
+	@Override
+	public void deleteEducation(int eduid) {
+		profileDao.deleteEducation(eduid);
 		
 	}
 

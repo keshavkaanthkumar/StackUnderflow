@@ -168,7 +168,7 @@ export const addExperience = (formData, history) => async dispatch => {
       }
     };
 
-    const res = await axios.put('/api/profile/experience', formData, config);
+    const res = await axios.put('/profile/experience', formData, config);
 
     dispatch({
       type: UPDATE_PROFILE,
@@ -201,7 +201,7 @@ export const addEducation = (formData, history) => async dispatch => {
       }
     };
 
-    const res = await axios.put('/api/profile/education', formData, config);
+    const res = await axios.put('/profile/education', formData, config);
 
     dispatch({
       type: UPDATE_PROFILE,
@@ -228,7 +228,7 @@ export const addEducation = (formData, history) => async dispatch => {
 // Delete experience
 export const deleteExperience = id => async dispatch => {
   try {
-    const res = await axios.delete(`/api/profile/experience/${id}`);
+    const res = await axios.delete(`/profile/experience/${id}`);
 
     dispatch({
       type: UPDATE_PROFILE,
@@ -247,7 +247,7 @@ export const deleteExperience = id => async dispatch => {
 // Delete education
 export const deleteEducation = id => async dispatch => {
   try {
-    const res = await axios.delete(`/api/profile/education/${id}`);
+    const res = await axios.delete(`/profile/education/${id}`);
 
     dispatch({
       type: UPDATE_PROFILE,

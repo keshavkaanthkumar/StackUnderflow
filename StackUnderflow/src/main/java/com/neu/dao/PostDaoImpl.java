@@ -53,7 +53,9 @@ public class PostDaoImpl implements PostDao{
 	@Override
 	public void deletePost(int postId) {
 		// TODO Auto-generated method stub
-		
+		Query q =sessionFactory.getCurrentSession().createQuery("Delete FROM Post WHERE postId = :postId");
+		  q.setInteger("postId", postId);
+		  q.executeUpdate();
 	}
 
 	@Override
