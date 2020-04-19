@@ -143,24 +143,25 @@ public class UserController {
 //	      }
 //      return new ResponseEntity<List<User>>(users,HttpStatus.OK);
 //   }
-   @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, 
+   @RequestMapping(
            produces = MediaType.APPLICATION_JSON_VALUE,method= RequestMethod.DELETE,
-      value="/user/{id}")
-   public ResponseEntity<?> delete(@PathVariable("id") String id) {
+      value="/user")
+   public ResponseEntity<?> delete(@RequestHeader(value="x-auth-token",required = true) String requestTokenHeader) {
+	   User user;
 	   try {
-		   userService.deleteUser(id);
-		      }
-		      catch(Exception ex) {
-		    	   Error error=new Error();
-		    	   //error.setValue();
-		    	   error.setMsg(ex.getMessage());
-		    	   List<Error> errorlist=new ArrayList<>();
-		    	   errorlist.add(error);
-		           ErrorResponse errors = new ErrorResponse(errorlist);
-		    	  return new ResponseEntity<ErrorResponse>(errors , HttpStatus.BAD_REQUEST);
-		      }
+	   user=userExtractor.getUserFromtoken(requestTokenHeader);
+	   }
+	   catch(Exception ex) {
+		   Error error=new Error();
+    	   error.setValue(ex.getMessage());
+    	   error.setMsg("Invalid token");
+    	   List<Error> errorlist=new ArrayList<>();
+    	   errorlist.add(error);
+           ErrorResponse errors = new ErrorResponse(errorlist);
+    	  return new ResponseEntity<ErrorResponse>(errors , HttpStatus.BAD_REQUEST);
+	   }
 	   
-      
+      userService.deleteUser(user.getName());
       return new ResponseEntity<String>("User deleted",HttpStatus.OK);
    }
 

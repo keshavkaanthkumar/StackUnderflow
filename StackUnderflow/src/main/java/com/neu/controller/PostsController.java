@@ -57,7 +57,7 @@ public class PostsController {
 		   }
 		   @RequestMapping(
 		            produces = MediaType.APPLICATION_JSON_VALUE, method= RequestMethod.GET,
-		      value="/posts/{id}")
+		      value="/post/{id}")
 		   public ResponseEntity<?> getbyId(@PathVariable(value = "id") int postId) {
 			  // User user=userExtractor.getUserFromtoken(requestTokenHeader);
 			   Post post=postService.getPost(postId);

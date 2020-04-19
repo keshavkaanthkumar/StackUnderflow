@@ -118,8 +118,8 @@ public class ProfileController {
 	   }
 	   @RequestMapping(
 	            produces = MediaType.APPLICATION_JSON_VALUE, method= RequestMethod.GET,
-	      value="/profile")
-	   public ResponseEntity<?> getProfilefromEmail(@RequestParam(value="email") String email,@RequestHeader(value="x-auth-token",required = true) String requestTokenHeader) {
+	      value="/profiles")
+	   public ResponseEntity<?> getProfilefromEmail(@RequestParam(value="email") String email) {
 //		   User user;
 //		   try {
 //		   user=userExtractor.getUserFromtoken(requestTokenHeader);
@@ -145,8 +145,8 @@ public class ProfileController {
 	   }
 	   @RequestMapping(
 	            produces = MediaType.APPLICATION_JSON_VALUE, method= RequestMethod.GET,
-	      value="/profiles")
-	   public ResponseEntity<?> getallProfiles(@RequestHeader(value="x-auth-token",required = true) String requestTokenHeader) {
+	      value="/profiles/all")
+	   public ResponseEntity<?> getallProfiles() {
 //		   User user;
 //		   try {
 //		   user=userExtractor.getUserFromtoken(requestTokenHeader);

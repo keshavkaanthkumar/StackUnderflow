@@ -36,8 +36,8 @@ import com.neu.service.JwtUserDetailsService;
 
 
 
-//@WebFilter
-//(urlPatterns = {"/profile/*","/profile"})
+@WebFilter
+(urlPatterns = {"/profile/*","/post/*","/like/*","/unlike/*","/comment/*"})
 public class RequestFilter extends HttpFilter{
 
 //	@Autowired
