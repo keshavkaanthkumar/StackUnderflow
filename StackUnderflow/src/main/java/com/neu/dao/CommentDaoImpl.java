@@ -43,6 +43,20 @@ public class CommentDaoImpl implements CommentDao {
 		  q.executeUpdate();
 		
 	}
+	@Override
+	public void deleteCommentbypostId(int postId) {
+		Query q =sessionFactory.getCurrentSession().createQuery("Delete FROM Comment WHERE postId = :postId");
+		  q.setInteger("postId", postId);
+		  q.executeUpdate();
+		
+	}
+	@Override
+	public void deleteCommentbyuser(String uname) {
+		Query q =sessionFactory.getCurrentSession().createQuery("Delete FROM Comment WHERE username = :uname");
+		  q.setString("uname", uname);
+		  q.executeUpdate();
+		
+	}
 
 }
 

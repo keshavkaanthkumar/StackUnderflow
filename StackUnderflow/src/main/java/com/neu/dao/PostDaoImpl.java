@@ -18,6 +18,10 @@ import com.neu.model.Profile;
 public class PostDaoImpl implements PostDao{
 	 @Autowired
 	 private SessionFactory sessionFactory;
+	 @Autowired
+	 private CommentDao commentdao;
+	 @Autowired
+	 private LikeDao likedao;
 	@Override
 	public Post addPost(Post post) {
 		
@@ -49,14 +53,33 @@ public class PostDaoImpl implements PostDao{
 		  Post post=(Post) q.uniqueResult();
 		  return post;
 	}
+	@Override
+	public List<Post> getPostbyuser(String uname) {
+		Query q =sessionFactory.getCurrentSession().createQuery("FROM Post WHERE username = :uname");
+		  q.setString("uname", uname);
+		  List<Post> posts=q.list();
+		  return posts;
+	}
 
 	@Override
 	public void deletePost(int postId) {
 		// TODO Auto-generated method stub
+		commentdao.deleteCommentbypostId(postId);
+		likedao.deleteLikebyPostId(postId);
 		Query q =sessionFactory.getCurrentSession().createQuery("Delete FROM Post WHERE postId = :postId");
 		  q.setInteger("postId", postId);
 		  q.executeUpdate();
 	}
+	@Override
+	public void deletePostbyuser(String uname) {
+		
+		List<Post> posts=getPostbyuser(uname);
+		for(Post post:posts) {
+			deletePost(post.getPostId());
+		}
+		
+	}
+	
 
 	@Override
 	public Post updatePost(Post post) {

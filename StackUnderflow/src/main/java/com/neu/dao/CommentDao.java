@@ -17,5 +17,9 @@ public interface CommentDao {
 	 public Comment getComment(int commentId);
 	
 	public void deleteComment(int commentId);
+
+	void deleteCommentbypostId(int postId);
+
+	void deleteCommentbyuser(String uname);
 }
 

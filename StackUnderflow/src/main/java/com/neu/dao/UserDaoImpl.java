@@ -25,7 +25,8 @@ public class UserDaoImpl implements UserDao {
 
  @Autowired
  private SessionFactory sessionFactory;
- 
+ @Autowired
+ ProfileDao profileDao;
  public User addUser(User user) {
    sessionFactory.getCurrentSession().save(user);
    return user;
@@ -46,9 +47,9 @@ public class UserDaoImpl implements UserDao {
  }
 
  public void deleteUser(String uname) {
-	
-     Query q =sessionFactory.getCurrentSession().createQuery("DELETE FROM User WHERE name = :uname");
-  q.setString("uname", uname);
+	profileDao.deleteProfile(uname);
+     Query q =sessionFactory.getCurrentSession().createQuery("DELETE FROM User WHERE username = :username");
+  q.setString("username", uname);
   int i=q.executeUpdate();
   if(i==0) {
 	  String msg="User not found";

@@ -36,6 +36,23 @@ public class LikeDaoImpl implements LikeDao {
 		  q.executeUpdate();
 		
 	}
+	@Override
+	public void deleteLikebyPostId(int postId) {
+		Query q =sessionFactory.getCurrentSession().createQuery("Delete FROM Like WHERE postId = :postId");
+		  q.setInteger("postId", postId);
+	
+		  q.executeUpdate();
+		
+	}
+	@Override
+	public void deleteLikebyuser(String uname) {
+		Query q =sessionFactory.getCurrentSession().createQuery("Delete FROM Like WHERE username = :uname");
+		  q.setString("uname", uname);
+	
+		  q.executeUpdate();
+		
+	}
+	
 
 	@Override
 	public List<Like> getLikesofPost(int postId) {

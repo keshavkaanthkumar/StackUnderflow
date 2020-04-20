@@ -43,7 +43,20 @@ public class PostsController {
 		            produces = MediaType.APPLICATION_JSON_VALUE, method= RequestMethod.POST,
 		      value="/post/me")
 		   public ResponseEntity<?> save(@RequestHeader(value="x-auth-token",required = true) String requestTokenHeader,@RequestBody Post post) {
-		         User user=userExtractor.getUserFromtoken(requestTokenHeader);
+			    User user;
+				   try {
+				   user=userExtractor.getUserFromtoken(requestTokenHeader);
+				  }
+				  catch(Exception ex) {
+					  Error error=new Error();
+				   	   //error.setValue(ex.getMessage());
+				   	   error.setMsg("Invalid/Expired token");
+				   	   List<Error> errorlist=new ArrayList<>();
+				   	   errorlist.add(error);
+				          ErrorResponse errors = new ErrorResponse(errorlist);
+				   	  return new ResponseEntity<ErrorResponse>(errors , HttpStatus.BAD_REQUEST);
+				  }
+			
 				Post postres=postService.addPost(post, user);
 		      return new ResponseEntity<Post>(postres,HttpStatus.OK);
 		   }

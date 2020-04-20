@@ -24,14 +24,16 @@ public class ProfileRequestConvertor {
 	  Profile profile=new Profile();
 		 profile.setBio(profileRequest.getBio());
 		 profile.setCompany(profileRequest.getCompany());
+		 profile.setLocation(profileRequest.getLocation());
+		 profile.setWebsite(profileRequest.getWebsite());
 		 profile.setGithubusername(profileRequest.getGithubusername());
 		 profile.setStatus(profileRequest.getStatus());	
-		 Social social=new Social();
-//		 social.setFacebook(profileRequest.getFacebook());
-//		 social.setInstagram(profileRequest.getInstagram());
-//		 social.setLinkedin(profileRequest.getLinkedin());
-//		 social.setTwitter(profileRequest.getTwitter());
-//		 social.setYoutube(profileRequest.getYoutube());
+		
+		 profile.setFacebook(profileRequest.getFacebook());
+		 profile.setInstagram(profileRequest.getInstagram());
+		 profile.setLinkedin(profileRequest.getLinkedin());
+		 profile.setTwitter(profileRequest.getTwitter());
+		 profile.setYoutube(profileRequest.getYoutube());
 		// profile.setSocial(social);
 //		 List<String> skills = Arrays.asList(profileRequest.getSkills().split(","));
 //		 Set<Skill> skillset = new HashSet<Skill>();

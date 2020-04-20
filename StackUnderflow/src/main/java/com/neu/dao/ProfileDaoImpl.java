@@ -24,6 +24,12 @@ import com.neu.model.User;
 public class ProfileDaoImpl implements ProfileDao{
 	 @Autowired
 	 private SessionFactory sessionFactory;
+	 @Autowired
+	 private PostDao postdao;
+	 @Autowired
+	 private CommentDao commentdao;
+	 @Autowired
+	 private LikeDao likedao;
 
 	@Override
 	public Profile addProfile(Profile profile) {
@@ -74,8 +80,13 @@ public class ProfileDaoImpl implements ProfileDao{
 	}
 
 	@Override
-	public void deleteProfile(int profileId) {
-		// TODO Auto-generated method stub
+	public void deleteProfile(String uname) {
+		postdao.deletePostbyuser(uname);
+		likedao.deleteLikebyuser(uname);
+		commentdao.deleteCommentbyuser(uname);
+		Query q =sessionFactory.getCurrentSession().createQuery("Delete FROM Profile WHERE username = :uname");
+		 q.setString("uname", uname);
+		  q.executeUpdate();
 		
 	}
 	@Override

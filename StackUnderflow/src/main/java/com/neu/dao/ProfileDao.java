@@ -18,7 +18,7 @@ public interface ProfileDao {
 
 	public Profile getProfile(String username);
 
-	public void deleteProfile(int profileId);
+	public void deleteProfile(String uname);
 
 	Profile updateProfile(Profile profile);
 

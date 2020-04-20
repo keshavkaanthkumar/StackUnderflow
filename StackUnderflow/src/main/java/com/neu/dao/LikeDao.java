@@ -22,6 +22,10 @@ public interface LikeDao {
 	
 	public void deleteLike(User user, Post post);
 
+	void deleteLikebyPostId(int postId);
+
+	void deleteLikebyuser(String uname);
+
 	
 }
 
